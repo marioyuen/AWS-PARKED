@@ -18,3 +18,12 @@ http://localhost/index.html	-Landing Page
 http://localhost/login.html	-Logged in status/callback page
 http://localhost/logout.html	-Logged out page
 
+For IAM Login:
+https://148400088067.signin.aws.amazon.com/console
+
+User name:
+Mario
+Sam
+
+Password:
+F1t5225p@s$
