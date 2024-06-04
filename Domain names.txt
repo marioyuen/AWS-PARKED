@@ -7,6 +7,14 @@ https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=6
 For LOGIN page to PROC LOGOUT use BELOW:
 https://fit5225cs1.auth.us-east-1.amazoncognito.com/logout?client_id=6i1n043vk22dgqphagp7u1mabo&logout_uri=http://localhost/logout.html
 
+For UPLOADING to S3 bucket, include the upload image name in url, use BELOW:
+https://03h49voydg.execute-api.us-east-1.amazonaws.com/Testing/fit5225bucket/
+
+OR how I did it
+
+const url = 'https://03h49voydg.execute-api.us-east-1.amazonaws.com/Testing/fit5225bucket/' + encodeURIComponent(file.name);
+
 http://localhost/index.html	-Landing Page
 http://localhost/login.html	-Logged in status/callback page
 http://localhost/logout.html	-Logged out page
+
