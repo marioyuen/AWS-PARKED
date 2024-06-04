@@ -1,4 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logged In</title>
+</head>
 <body>
-    <h3> You have logged in</h3>
-    <p><a href="https://fit5225cs.auth.us-east-1.amazoncognito.com/logout?client_id=6048es7vvkigavofmm1gvjrkab&logout_uri=http://localhost/logout.html">Log out</a></p>
+  <h2>You have logged in</h3>
+  <div id="usernameDisplay"></div>
+  <p><a href="upload.html">Upload Image</a></p>
+  <p><a href="https://fit5225cs1.auth.us-east-1.amazoncognito.com/logout?client_id=6i1n043vk22dgqphagp7u1mabo&logout_uri=http://localhost/logout.html">Log out</a></p>
+  <script>
+    // Function to extract token from URL fragment
+    function extractTokenFromURL() {
+        // Get url
+        const fragment = window.location.hash.substring(1); // Remove the '#' character
+        // Extract query parameters
+        const params = new URLSearchParams(fragment);
+        // Get IDtoken from URL for identification
+        const token = params.get('id_token');
+        return token;
+    }
+
+
+    function decodeIdToken(idToken) {
+            const decodedToken = JSON.parse(atob(idToken.split('.')[1]));
+            return decodedToken;
+        }
+
+    // Function to display the logged-in user
+    function displayLoggedInUser() {
+        const idToken = extractTokenFromURL();
+
+        if (idToken) {
+            const decodedToken = decodeIdToken(idToken);
+            const userEmail = decodedToken['email'];
+            document.getElementById('usernameDisplay').innerText = 'Logged-in User: ' + userEmail;
+        } else {
+            document.getElementById('usernameDisplay').innerText = 'No user logged in.';
+        }
+    }
+
+    // Function call here
+    displayLoggedInUser();
+</script>
+
 </body>
+</html>
