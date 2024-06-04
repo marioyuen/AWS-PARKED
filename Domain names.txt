@@ -1,0 +1,12 @@
+cognito domain name page as BELOW:
+https://fit5225cs1.auth.us-east-1.amazoncognito.com
+
+To PROC cognito login page use BELOW:
+https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=6i1n043vk22dgqphagp7u1mabo&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%2Flogin.html
+
+For LOGIN page to PROC LOGOUT use BELOW:
+https://fit5225cs1.auth.us-east-1.amazoncognito.com/logout?client_id=6i1n043vk22dgqphagp7u1mabo&logout_uri=http://localhost/logout.html
+
+http://localhost/index.html	-Landing Page
+http://localhost/login.html	-Logged in status/callback page
+http://localhost/logout.html	-Logged out page
