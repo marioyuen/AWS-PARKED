@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Full-Size Image</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Presigned URL</h1>
+        <form id="presign-form">
+            <label for="bucket">S3 Bucket:</label>
+            <input type="text" id="bucket" name="bucket" required>
+            <label for="key">S3 Key:</label>
+            <input type="text" id="key" name="key" required>
+            <button type="submit">Get Presigned URL</button>
+        </form>
+        <div id="result">
+            <h2>Presigned URL:</h2>
+            <p id="presigned-url"></p>
+            <h2>Image:</h2>
+            <img id="presigned-image" src="" alt="Image will be displayed here">
+        </div>
+    </div>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+    <script src="dist/bundle.js"></script>
+</body>
+<body>
+    <div class="container">
+        <h1>Find Full-Size Image</h1>
+        <form id="thumbnail-form">
+            <label for="thumbnail-url">Thumbnail S3 URL:</label>
+            <input type="text" id="thumbnail-url" name="thumbnail-url" required>
+            <button type="submit">Find Full-Size Image</button>
+        </form>
+        <div id="result">
+            <h2>Full-Size Image URL:</h2>
+            <p id="fullsize-url"></p>
+            <h2>Full-Size Image:</h2>
+            <img id="fullsize-image" src="" alt="Full Size Image">
+        </div>
+    </div>
+    <script>
+        document.getElementById('thumbnail-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const thumbnailUrl = document.getElementById('thumbnail-url').value;
+            const apiUrl = 'https://03h49voydg.execute-api.us-east-1.amazonaws.com/Testing'; // This is the API Gateway endpoint URL
+
+            try {
+                const response = await fetch(apiUrl + '?thumbnail_url=' + encodeURIComponent(thumbnailUrl));
+                if (response.ok) {
+                    const data = await response.json();
+                    const fullImageUrl = data.full_image_url;
+                    document.getElementById('fullsize-url').innerText = fullImageUrl;
+                    document.getElementById('fullsize-image').src = fullImageUrl;
+                } else {
+                    document.getElementById('fullsize-url').innerText = 'Error: ' + response.statusText;
+                    document.getElementById('fullsize-image').src = '';
+                }
+            } catch (error) {
+                console.error('Error fetching full-size image URL:', error);
+                document.getElementById('fullsize-url').innerText = 'Error fetching full-size image URL. Please try again later.';
+                document.getElementById('fullsize-image').src = '';
+            }
+        });
+    </script>
+</body>
+</html>
