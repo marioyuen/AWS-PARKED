@@ -1,5 +1,6 @@
-// Protect the page
-protectRoute();
+function redirectToMainPage() {
+    window.location.href = 'main.html';
+}
 
 // Function to extract bucket name and key from URL
 function extractBucketAndKey(s3Url) {

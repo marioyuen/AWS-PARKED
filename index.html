@@ -3,13 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARKED - Welcome</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to PARKED</h1>
-        <a href="https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=6i1n043vk22dgqphagp7u1mabo&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%2Flogin.html">Register or Login</a>
-    </div>
+    <h1>Welcome to the Application</h1>
+    <button class="button" onclick="redirectToLogin()">Login/Register</button>
+
+    <script>
+        function redirectToLogin() {
+            const clientId = '6i1n043vk22dgqphagp7u1mabo';
+            const redirectUri = encodeURIComponent('http://localhost/callback.html');
+            const cognitoDomain = 'https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/authorize';
+            const responseType = 'code';
+            const scope = 'email+openid+phone';
+            const url = `${cognitoDomain}?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${redirectUri}`;
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>

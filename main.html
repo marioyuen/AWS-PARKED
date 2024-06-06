@@ -46,21 +46,16 @@
 </head>
 <body>
     <div class="top-right">
-        <button class="button" onclick="redirectToMainPage()">Back</button>
         <button class="button" onclick="logout()">Logout</button>
     </div>
-    <div class="container">
-        <h1>Get Full-Size Image</h1>
-        <form id="thumbnail-form">
-            <label for="thumbnail-url">Thumbnail S3 URL:</label>
-            <input type="text" id="thumbnail-url" name="thumbnail-url" required>
-            <button type="submit">Get Full-Size Image</button>
-        </form>
-        <div id="full-size-url"></div>
+    <div class="center-content">
+        <h1>Welcome to the Main Page</h1>
+        <p id="welcome-message"></p>
+        <button class="button" onclick="redirectToUploadPage()">Upload Image</button>
+        <button class="button" onclick="redirectToGetImagePage()">Get Image</button>
     </div>
     <script src="auth.js"></script>
-    <script src="dist/bundle.js"></script>
-    <script src="getImage.js"></script>    
+    <script src="main.js"></script>
+    <div id="usernameDisplay"></div>
 </body>
-<div id="usernameDisplay"></div>
 </html>

@@ -1,6 +1,3 @@
-// Protect the page
-protectRoute();
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('upload-form');
 
@@ -34,3 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 }); 
+
+function redirectToMainPage() {
+    window.location.href = 'main.html';
+}

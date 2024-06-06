@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback</title>
+</head>
+<body>
+    <script>
+        function getQueryStringValue(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        }
+
+        // Extract from URL
+        const authorizationCode = getQueryStringValue('code');
+        
+        // If authorization code is present, exchange with cognito for tokens
+        if (authorizationCode) {
+            const clientId = '6i1n043vk22dgqphagp7u1mabo';
+            const clientSecret = '1jtnci3jh930curetse04th3e8ipft508kj0p2ahia1k2ie5e9ni';
+            const redirectUri = 'http://localhost/callback.html';
+            
+            // Define the token endpoint and the request payload
+            const tokenUrl = 'https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/authorize';
+            const data = {
+                grant_type: 'authorization_code',
+                client_id: clientId,
+                client_secret: clientSecret,
+                code: authorizationCode,
+                redirect_uri: redirectUri
+            };
+            
+            const tokenEndpoint = 'https://fit5225cs1.auth.us-east-1.amazoncognito.com/oauth2/token';
+            // Exchange authorization code for tokens
+            async function exchangeCodeForTokens() {
+                try {
+                    const response = await fetch(tokenEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams(data)
+                    })
+                    const tokens = await response.json();
+                    
+                    // Store tokens in localStorage
+                    localStorage.setItem('access_token', tokens.access_token);
+                    localStorage.setItem('id_token', tokens.id_token);
+                    localStorage.setItem('refresh_token', tokens.refresh_token);
+                    
+                    // Redirect to main page
+                    window.location.href = 'main.html';
+                } catch (error) {
+                    
+                    console.error('Error exchanging code for tokens:', error);
+                }
+            }
+
+            // Call the function to exchange code for tokens
+            exchangeCodeForTokens();
+        } else {
+            console.error('Authorization code not found');
+        }
+    </script>
+</body>
+</html>
