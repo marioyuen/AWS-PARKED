@@ -1,4 +1,6 @@
-import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 // Configuration for User Pool
 const poolData = {
@@ -7,66 +9,20 @@ const poolData = {
 };
 
 const userPool = new CognitoUserPool(poolData);
+const bucketName = "fit5225bucket";
+const bucketName2 = "fit5225thumbnail";
+const bucketRegion = "us-east-1";
+const accessKey = "AKIASFDKVUQBWLM7VDDZ";
+const secretAccessKey = "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";
 
-function getCurrentUser() {
-  return userPool.getCurrentUser();
-}
+const s3 = new S3Client({
+    credentials: {
+    accessKeyId: accessKey,
+    secretAccessKey: secretAccessKey,
+},
+region: bucketRegion
+});
 
-function getUserAttributes() {
-  const cognitoUser = getCurrentUser();
-  
-  if (cognitoUser) {
-    cognitoUser.getSession((err, session) => {
-      if (err) {
-        console.log(err.message || JSON.stringify(err));
-        return;
-      }
-
-      cognitoUser.getUserAttributes((err, result) => {
-        if (err) {
-          alert(err.message || JSON.stringify(err));
-          return;
-        }
-        for (let i = 0; i < result.length; i++) {
-          console.log('attribute ' + result[i].getName() + ' has value ' + result[i].getValue());
-        }
-      });
-    });
-  }
-}
-
-function verifyUserAttribute(attributeName) {
-  const cognitoUser = getCurrentUser();
-
-  if (cognitoUser) {
-    cognitoUser.getSession((err, session) => {
-      if (err) {
-        console.log(err.message || JSON.stringify(err));
-        return;
-      }
-
-      cognitoUser.getAttributeVerificationCode(attributeName, {
-        onSuccess: function(result) {
-          console.log('call result: ' + result);
-        },
-        onFailure: function(err) {
-          alert(err.message || JSON.stringify(err));
-        },
-        inputVerificationCode: function() {
-          var verificationCode = prompt('Please input verification code: ', '');
-          cognitoUser.verifyAttribute(attributeName, verificationCode, {
-            onSuccess: function(result) {
-              console.log('call result: ' + result);
-            },
-            onFailure: function(err) {
-              alert(err.message || JSON.stringify(err));
-            }
-          });
-        }
-      });
-    });
-  }
-}
 
 // Function to extract token from URL fragment
 function extractTokenFromURL() {
@@ -126,10 +82,6 @@ function protectRoute() {
   }
 }
 
-// Protect a specific page
-document.addEventListener('DOMContentLoaded', function () {
-  protectRoute();
-});
 
 // Checking login status and displaying user information
 document.addEventListener('DOMContentLoaded', function () {
@@ -143,26 +95,40 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// Call this function when you want to retrieve user attributes
-document.addEventListener('DOMContentLoaded', function() {
-  if (checkLogin()) {
-    getUserAttributes();
-  }
-});
-
 
 function logout() {
     localStorage.clear();
     window.location.href = 'https://fit5225cs1.auth.us-east-1.amazoncognito.com/logout?client_id=6i1n043vk22dgqphagp7u1mabo&logout_uri=http://localhost/logout.html';
   }
-    
+
+async function getS3Url(bucketName, key) {
+    const getObjectParams = {
+        Bucket: bucketName,
+        Key: key
+    };
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    return url;
+}
+
+async function displayS3Url() {
+    const bucketName = 'fit5225bucket'; // Replace with your bucket name
+    const key = '1638984032087.png'; // Replace with your object key
+
+    try {
+        const url = await getS3Url(bucketName, key);
+        console.log('Signed URL:', url);
+        document.getElementById('s3-url-display').innerText = url;
+    } catch (error) {
+        console.error('Error getting signed URL:', error);
+    }
+}
 
 // Global public functions for other HTML
 window.checkLogin = checkLogin;
 window.protectRoute = protectRoute;
-window.getUserAttributes = getUserAttributes;
-window.verifyUserAttribute = verifyUserAttribute;
 window.displayLoggedInUser = displayLoggedInUser;
 window.extractTokenFromURL = extractTokenFromURL;
 window.decodeIdToken = decodeIdToken;
 window.logout = logout;
+window.getS3Url = getS3Url;

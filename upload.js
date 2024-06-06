@@ -1,3 +1,6 @@
+// Protect the page
+protectRoute();
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('upload-form');
 
