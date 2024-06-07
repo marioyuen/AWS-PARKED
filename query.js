@@ -26,3 +26,7 @@ document.getElementById('query-form').addEventListener('submit', async function(
         console.error('There was a problem with the fetch operation:', error);
     }
 });
+
+function redirectToMainPage() {
+    window.location.href = 'main.html';
+}
