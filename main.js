@@ -6,6 +6,10 @@ function redirectToGetImagePage() {
     window.location.href = 'getImage.html';
 }
 
-function redirectToListImagePage() {
-    window.location.href = 'listImage.html';
+function redirectToDeleteImagePage() {
+    window.location.href = 'DeleteImage.html';
+}
+
+function redirectToQueryPage() {
+    window.location.href = 'query.html';
 }
