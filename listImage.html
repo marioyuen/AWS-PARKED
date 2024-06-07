@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>List Image</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,19 +44,22 @@
         }
     </style>
 </head>
-<body>
-    <div class="top-right">
-        <button class="button" onclick="logout()">Logout</button>
+    <body>
+        <div class="top-right">           
+            <button class="button" onclick="redirectToMainPage()">Back</button>    
+            <button class="button" onclick="logout()">Logout</button>
+        </div>
+        <div class="container">
+    <h1>Delete Images</h1>
+    <input type="text" id="image-url" placeholder="Enter image URL">
+    <button class="button" onclick="addImageUrl()">Add to Delete</button>
+    <div class="delete-list" id="delete-list">
+        <h2>URLs to Delete:</h2>
+        <ul id="url-list"></ul>
     </div>
-    <div class="center-content">
-        <h1>Welcome to the Main Page</h1>
-        <p id="welcome-message"></p>
-        <button class="button" onclick="redirectToUploadPage()">Upload Image</button>
-        <button class="button" onclick="redirectToGetImagePage()">Get Image</button>
-        <button class="button" onclick="redirectToListImagePage()">List Image</button>
-    </div>
+    <button class="button" onclick="confirmDelete()">Confirm Delete</button>
     <script src="auth.js"></script>
-    <script src="main.js"></script>
+    <script src="listImage.js"></script>   
+    </body>
     <div id="usernameDisplay"></div>
-</body>
 </html>

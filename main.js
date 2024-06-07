@@ -5,3 +5,7 @@ function redirectToUploadPage() {
 function redirectToGetImagePage() {
     window.location.href = 'getImage.html';
 }
+
+function redirectToListImagePage() {
+    window.location.href = 'listImage.html';
+}
