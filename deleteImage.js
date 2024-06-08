@@ -49,7 +49,7 @@ async function confirmDelete() {
     };
 
     try {
-        const response = await fetch('https://03h49voydg.execute-api.us-east-1.amazonaws.com/dev/delete-images', {
+        const response = await fetch('https://bfmy2jx0d8.execute-api.us-east-1.amazonaws.com/dev/delete-image', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
